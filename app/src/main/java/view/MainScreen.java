@@ -14,6 +14,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRenderer;
+import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
 public class MainScreen extends javax.swing.JFrame {
@@ -25,10 +27,11 @@ public class MainScreen extends javax.swing.JFrame {
     TaskTableModel taskModel;
     
     public MainScreen() {
-        initComponents();
-        decorateTableTask();
+        initComponents();        
         initDataController();
         initComponentsModel();
+        decorateTableTask();
+        centralizeMainScreen();
     }
 
     /**
@@ -432,7 +435,9 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         jTableTasks.getTableHeader().setBackground(new Color(211,198,204));
         jTableTasks.getTableHeader().setForeground(new Color(102,0,204));
-        
+        jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
+        jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("editar"));
+        jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("excluir"));
         //Criando um sort automático para as colunas da table
         jTableTasks.setAutoCreateRowSorter(true);
     }
@@ -440,6 +445,12 @@ public class MainScreen extends javax.swing.JFrame {
     public void initDataController() {
         projectController = new ProjectController();
         taskController = new TaskController();
+    }
+    
+    private void centralizeMainScreen() {
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
     
     public void initComponentsModel() {
